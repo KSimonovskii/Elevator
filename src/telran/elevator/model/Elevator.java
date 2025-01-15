@@ -13,7 +13,7 @@ public class Elevator {
         return name;
     }
 
-    public int getCurrentVolume() {
+    public synchronized int getCurrentVolume() {
         return currentVolume;
     }
 
@@ -21,7 +21,7 @@ public class Elevator {
         this.name = name;
     }
 
-    public void add(int portion) {
+    public synchronized void add(int portion) {
         currentVolume += portion;
     }
 }
