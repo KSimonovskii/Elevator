@@ -2,9 +2,12 @@ package telran.elevator.task;
 
 import telran.elevator.model.Elevator;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class Track implements Runnable{
 
-    private static Object mutex = new Object();
+    private static Lock mutex = new ReentrantLock();
     private int nRaces;
     private int capacity;
     private Elevator elevator;
@@ -19,8 +22,11 @@ public class Track implements Runnable{
     public void run() {
 
         for (int i = 0; i < nRaces; i++) {
-            synchronized (mutex) {
+            mutex.lock();
+            try {
                 elevator.add(capacity);
+            } finally {
+                mutex.unlock();
             }
         }
 
