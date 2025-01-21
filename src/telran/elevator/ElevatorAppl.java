@@ -19,12 +19,18 @@ public class ElevatorAppl {
 
         Elevator[] elevators = {elevator1, elevator2};
 
-        Thread[] threads = new Thread[N_TRUCK];
+        Thread[] threads = new Thread[N_TRUCK * elevators.length];
 
         LocalDateTime start = LocalDateTime.now();
         for (int i = 0; i < N_TRUCK; i++) {
-            threads[i] = new Thread(new Track(N_RACES, CAPACITY, elevators));
-            threads[i].start();
+
+            int balance = CAPACITY;
+            for (int j = 0; j < elevators.length; j++) {
+                int weight = j == elevators.length - 1? balance : CAPACITY / elevators.length;
+                threads[i] = new Thread(new Track(N_RACES, weight, elevators[j]));
+                threads[i].start();
+                balance -= weight;
+            }
         }
 
         for (int i = 0; i < N_TRUCK; i++) {

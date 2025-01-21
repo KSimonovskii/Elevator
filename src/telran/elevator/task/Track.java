@@ -7,26 +7,20 @@ public class Track implements Runnable{
     private static Object mutex = new Object();
     private int nRaces;
     private int capacity;
-    private Elevator[] elevators;
+    private Elevator elevator;
 
-    public Track(int nRaces, int capacity, Elevator[] elevators) {
+    public Track(int nRaces, int capacity, Elevator elevator) {
         this.nRaces = nRaces;
         this.capacity = capacity;
-        this.elevators = elevators;
+        this.elevator = elevator;
     }
 
     @Override
     public void run() {
 
         for (int i = 0; i < nRaces; i++) {
-
-            int balance = capacity;
-            for (int j = 0; j < elevators.length; j++) {
-                int weight = j == elevators.length - 1? balance : capacity / elevators.length;
-                synchronized (elevators[j]) {
-                    elevators[j].add(weight);
-                }
-                balance -= weight;
+            synchronized (elevator) {
+                elevator.add(capacity);
             }
         }
     }
