@@ -19,9 +19,7 @@ public class Track implements Runnable{
     public void run() {
 
         for (int i = 0; i < nRaces; i++) {
-            synchronized (mutex) {
-                elevator.add(capacity);
-            }
+            elevator.add(capacity);
         }
 
     }
